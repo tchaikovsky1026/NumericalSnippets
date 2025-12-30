@@ -1,0 +1,5 @@
+# local-parameter (gitignore).
+# filename: "local.properties" in the root directory
+
+# distribution path (create Zip)
+zipdist.dir=./dist

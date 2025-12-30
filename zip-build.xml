@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="ZipExport" default="build-zip" basedir=".">
+
+	<!--
+	local.properties: ローカルなパラメータを記述する.
+	local.properties.example を参照のこと.
+	-->
+	<property file="local.properties" />
+
+	<!-- ========== ビルド用プロパティファイル ========== -->
+	<property file="build.properties" />
+
+	<!-- ========== パス, 名前の定義 ========== -->
+	<property name="src.dir" location="src" />
+	<property name="zip.name" value="${dist.label}.zip" />
+	<property name="res.dir" location="." />
+
+	<!-- ========== 初期化（ビルドディレクトリ作成） ========== -->
+	<target name="init">
+		<mkdir dir="${bin.dir}" />
+		<mkdir dir="${zipdist.dir}" />
+	</target>
+
+	<!-- ========== JARファイルの生成 ========== -->
+	<target name="build-zip" depends="clean, init">
+		<zip destfile="${zipdist.dir}/${zip.name}" compress="true">
+			<!-- ソースファイル -->
+			<fileset dir="${src.dir}" includes="**/*.java" />
+
+			<!-- プロパティファイルから読み込んだリソース -->
+			<fileset dir="${res.dir}" includes="${other.resources}" />
+		</zip>
+	</target>
+
+	<!-- ========== クリーンターゲット ========== -->
+	<target name="clean">
+		<delete file="${zipdist.dir}/${zip.name}" />
+	</target>
+
+</project>
