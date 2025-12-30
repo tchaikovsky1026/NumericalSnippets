@@ -57,7 +57,7 @@
 	</target>
 
 	<target name="zip-javadoc" depends="javadoc.compile">
-		<zip destfile="${jardist.dir}/${javadoc.zip.name}"
+		<zip destfile="${zipdist.dir}/${javadoc.zip.name}"
 		     basedir="${dest.dir}"
 		/>
 	</target>
