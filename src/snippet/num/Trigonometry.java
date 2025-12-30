@@ -79,4 +79,38 @@ public final class Trigonometry {
                 throw new AssertionError("unreachable");
         }
     }
+
+    /**
+     * tan(pi * x) の計算.
+     * 
+     * @param x x
+     * @return tan(pi * x)
+     */
+    public static double tanpi(double x) {
+
+        if (!Double.isFinite(x)) {
+            return Double.NaN;
+        }
+
+        // -1 < x < 1 にマッピング
+        x %= 1d;
+
+        // switch-caseは-3から3まで
+        switch ((int) (4d * x)) {
+            case -3:
+                return Math.tan(Math.PI * (x + 1d));
+            case -2:
+            case -1:
+                return -1d / Math.tan(Math.PI * (x + 0.5d));
+            case 0:
+                return Math.tan(Math.PI * x);
+            case 1:
+            case 2:
+                return -1d / Math.tan(Math.PI * (x - 0.5d));
+            case 3:
+                return Math.tan(Math.PI * (x - 1d));
+            default:
+                throw new AssertionError("unreachable");
+        }
+    }
 }
