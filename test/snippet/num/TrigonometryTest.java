@@ -122,4 +122,30 @@ final class TrigonometryTest {
             assertThat(acospi(x), is(closeTo(Math.acos(x) / Math.PI, 1E-12)));
         }
     }
+
+    @RunWith(Theories.class)
+    public static class atanpi_parametric {
+
+        @DataPoints
+        public static double[] xs;
+
+        @BeforeClass
+        public static void before_prepareX() {
+            double xMin = -10d;
+            double xMax = 10d;
+            double deltaX = 1d / 64;
+
+            xs = DoubleStream.iterate(xMin, x -> x + deltaX)
+                    .limit(10_000)
+                    .filter(x -> x <= xMax)
+                    .toArray();
+        }
+
+        @Theory
+        public void test_atanpi(double x) {
+            // compare Java API
+            double expected = Math.atan(x) / Math.PI;
+            assertThat(atanpi(x), is(closeTo(expected, 1E-200 + 1E-12 * Math.abs(expected))));
+        }
+    }
 }
