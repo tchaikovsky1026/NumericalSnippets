@@ -91,4 +91,35 @@ final class TrigonometryTest {
             assertThat(tanpi(xShift), is(closeTo(tanpi(x), 1E-20)));
         }
     }
+
+    @RunWith(Theories.class)
+    public static class asinpi_and_acospi_parametric {
+
+        @DataPoints
+        public static double[] xs;
+
+        @BeforeClass
+        public static void before_prepareX() {
+            double xMin = -1d;
+            double xMax = 1d;
+            double deltaX = 1d / 64;
+
+            xs = DoubleStream.iterate(xMin, x -> x + deltaX)
+                    .limit(10_000)
+                    .filter(x -> x <= xMax)
+                    .toArray();
+        }
+
+        @Theory
+        public void test_asinpi(double x) {
+            // compare Java API
+            assertThat(asinpi(x), is(closeTo(Math.asin(x) / Math.PI, 1E-12)));
+        }
+
+        @Theory
+        public void test_acospi(double x) {
+            // compare Java API
+            assertThat(acospi(x), is(closeTo(Math.acos(x) / Math.PI, 1E-12)));
+        }
+    }
 }
