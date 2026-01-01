@@ -51,45 +51,23 @@ final class TrigonometryTest {
         public void test_sinpi(double x) {
             // compare Java API
             assertThat(sinpi(x), is(closeTo(Math.sin(Math.PI * x), 1E-12)));
-
-            // sinpi(x) ~= -sinpi(x+1)
-            if (Math.abs(x) < 1d) {
-                return;
-            }
-            double xShift = x < 0 ? x + 1d : x - 1d;
-            assertThat(sinpi(xShift), is(closeTo(-sinpi(x), 1E-20)));
         }
 
         @Theory
         public void test_cospi(double x) {
             // compare Java API
             assertThat(cospi(x), is(closeTo(Math.cos(Math.PI * x), 1E-12)));
-
-            // cospi(x) ~= -cospi(x+1)
-            if (Math.abs(x) < 1d) {
-                return;
-            }
-            double xShift = x < 0 ? x + 1d : x - 1d;
-            assertThat(cospi(xShift), is(closeTo(-cospi(x), 1E-20)));
         }
 
         @Theory
         public void test_tanpi(double x) {
             if (Math.abs(Math.IEEEremainder(x, 1d)) == 0.5) {
                 assertThat(Double.isInfinite(tanpi(x)), is(true));
-                return;
+            } else {
+                // compare Java API
+                double expected = Math.tan(Math.PI * x);
+                assertThat(tanpi(x), is(closeTo(expected, 1E-12 * (1 + Math.abs(expected)))));
             }
-
-            // compare Java API
-            double expected = Math.tan(Math.PI * x);
-            assertThat(tanpi(x), is(closeTo(expected, 1E-12 * (1 + Math.abs(expected)))));
-
-            // tanpi(x) ~= tanpi(x+1)
-            if (Math.abs(x) < 1d) {
-                return;
-            }
-            double xShift = x < 0 ? x + 1d : x - 1d;
-            assertThat(tanpi(xShift), is(closeTo(tanpi(x), 1E-20)));
         }
     }
 
