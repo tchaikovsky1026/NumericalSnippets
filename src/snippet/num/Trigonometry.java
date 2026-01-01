@@ -92,22 +92,40 @@ public final class Trigonometry {
             return Double.NaN;
         }
 
-        // -1 < x < 1 にマッピング
         x %= 1d;
-
-        // switch-caseは-3から3まで
-        switch ((int) (4d * x)) {
-            case -3:
+        // -8 < 8x < 8
+        switch ((int) (8d * x)) {
+            case -7:
                 return Math.tan(Math.PI * (x + 1d));
-            case -2:
-            case -1:
+            case -6:
+            case -5: {
+                double tanpz = Math.tan(Math.PI * (x + 0.75d));
+                return (1d + tanpz) / (1d - tanpz);
+            }
+            case -4:
+            case -3:
                 return -1d / Math.tan(Math.PI * (x + 0.5d));
+            case -2:
+            case -1: {
+                double tanpz = Math.tan(Math.PI * (x + 0.25d));
+                return (-1d + tanpz) / (1d + tanpz);
+            }
             case 0:
                 return Math.tan(Math.PI * x);
             case 1:
-            case 2:
-                return -1d / Math.tan(Math.PI * (x - 0.5d));
+            case 2: {
+                double tanpz = Math.tan(Math.PI * (x - 0.25d));
+                return (1d + tanpz) / (1d - tanpz);
+            }
             case 3:
+            case 4:
+                return -1d / Math.tan(Math.PI * (x - 0.5d));
+            case 5:
+            case 6: {
+                double tanpz = Math.tan(Math.PI * (x - 0.75d));
+                return (-1d + tanpz) / (1d + tanpz);
+            }
+            case 7:
                 return Math.tan(Math.PI * (x - 1d));
             default:
                 throw new AssertionError("unreachable");
