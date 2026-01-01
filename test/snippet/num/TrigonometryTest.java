@@ -16,7 +16,6 @@ import static snippet.num.Trigonometry.*;
 import java.util.stream.DoubleStream;
 
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -72,7 +71,7 @@ final class TrigonometryTest {
     }
 
     @RunWith(Theories.class)
-    public static class asinpi_and_acospi_parametric {
+    public static class asinpi_and_acospi_compareToJavaApi {
 
         @DataPoints
         public static double[] xs;
@@ -91,7 +90,7 @@ final class TrigonometryTest {
 
         @Theory
         public void test_asinpi(double x) {
-            // compare Java API
+            // compare to Java API
             assertThat(asinpi(x), is(closeTo(Math.asin(x) / Math.PI, 1E-12)));
         }
 
@@ -102,41 +101,48 @@ final class TrigonometryTest {
         }
     }
 
-    public static class asinpi_and_acospi_special {
+    @RunWith(Theories.class)
+    public static class asinpi_special {
 
-        @Test
-        public void test_asinpi_at_m1() {
-            assertThat(asinpi(-1d), is(-0.5d));
-        }
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -1d, -0.5d },
+                { 0d, 0d },
+                { 1d, 0.5d },
+                { Double.NaN, Double.NaN }
+        };
 
-        @Test
-        public void test_asinpi_at_0() {
-            assertThat(asinpi(0d) + 0d, is(0d));
-        }
+        @Theory
+        public void test_asinpi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
 
-        @Test
-        public void test_asinpi_at_p1() {
-            assertThat(asinpi(1d), is(0.5d));
-        }
-
-        @Test
-        public void test_acospi_at_m1() {
-            assertThat(acospi(-1d), is(1d));
-        }
-
-        @Test
-        public void test_acospi_at_0() {
-            assertThat(acospi(0d), is(0.5d));
-        }
-
-        @Test
-        public void test_acospi_at_p1() {
-            assertThat(acospi(1d) + 0d, is(0d));
+            assertThat(asinpi(x) + 0d, is(expected));
         }
     }
 
     @RunWith(Theories.class)
-    public static class atanpi_parametric {
+    public static class acospi_special {
+
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -1d, 1d },
+                { 0d, 0.5d },
+                { 1d, 0d },
+                { Double.NaN, Double.NaN }
+        };
+
+        @Theory
+        public void test_acospi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
+
+            assertThat(acospi(x) + 0d, is(expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class atanpi_compareToJavaApi {
 
         @DataPoints
         public static double[] xs;
@@ -155,37 +161,31 @@ final class TrigonometryTest {
 
         @Theory
         public void test_atanpi(double x) {
-            // compare Java API
+            // compare to Java API
             double expected = Math.atan(x) / Math.PI;
             assertThat(atanpi(x), is(closeTo(expected, 1E-200 + 1E-12 * Math.abs(expected))));
         }
     }
 
+    @RunWith(Theories.class)
     public static class atanpi_special {
 
-        @Test
-        public void test_atanpi_at_minf() {
-            assertThat(atanpi(Double.NEGATIVE_INFINITY), is(-0.5d));
-        }
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { Double.NEGATIVE_INFINITY, -0.5d },
+                { -1d, -0.25d },
+                { 0d, 0d },
+                { 1d, 0.25d },
+                { Double.POSITIVE_INFINITY, 0.5d },
+                { Double.NaN, Double.NaN }
+        };
 
-        @Test
-        public void test_atanpi_at_m1() {
-            assertThat(atanpi(-1d), is(-0.25d));
-        }
+        @Theory
+        public void test_atanpi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
 
-        @Test
-        public void test_atanpi_at_0() {
-            assertThat(atanpi(0d) + 0d, is(0d));
-        }
-
-        @Test
-        public void test_atanpi_at_p1() {
-            assertThat(atanpi(1d), is(0.25d));
-        }
-
-        @Test
-        public void test_atanpi_at_pinf() {
-            assertThat(atanpi(Double.POSITIVE_INFINITY), is(0.5d));
+            assertThat(atanpi(x) + 0d, is(expected));
         }
     }
 }
