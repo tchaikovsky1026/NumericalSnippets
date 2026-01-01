@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 final class TrigonometryTest {
 
     @RunWith(Theories.class)
-    public static class trigPi_parametric {
+    public static class trigPi_compareToJavaApi {
 
         @DataPoints
         public static double[] xs;
@@ -48,13 +48,13 @@ final class TrigonometryTest {
 
         @Theory
         public void test_sinpi(double x) {
-            // compare Java API
+            // compare to Java API
             assertThat(sinpi(x), is(closeTo(Math.sin(Math.PI * x), 1E-12)));
         }
 
         @Theory
         public void test_cospi(double x) {
-            // compare Java API
+            // compare to Java API
             assertThat(cospi(x), is(closeTo(Math.cos(Math.PI * x), 1E-12)));
         }
 
@@ -63,9 +63,91 @@ final class TrigonometryTest {
             if (Math.abs(Math.IEEEremainder(x, 1d)) == 0.5) {
                 assertThat(Double.isInfinite(tanpi(x)), is(true));
             } else {
-                // compare Java API
+                // compare to Java API
                 double expected = Math.tan(Math.PI * x);
                 assertThat(tanpi(x), is(closeTo(expected, 1E-12 * (1 + Math.abs(expected)))));
+            }
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class sinpi_special {
+
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -2d, 0d },
+                { -1.5d, 1d },
+                { -1d, 0d },
+                { -0.5d, -1d },
+                { 0d, 0d },
+                { 0.5d, 1d },
+                { 1d, 0d },
+                { 1.5d, -1d },
+                { 2d, 0d },
+                { Double.NaN, Double.NaN }
+        };
+
+        @Theory
+        public void test_sinpi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
+
+            assertThat(sinpi(x) + 0d, is(expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class cospi_special {
+
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -2d, 1d },
+                { -1.5d, 0d },
+                { -1d, -1d },
+                { -0.5d, 0d },
+                { 0d, 1d },
+                { 0.5d, 0d },
+                { 1d, -1d },
+                { 1.5d, 0d },
+                { 2d, 1d },
+                { Double.NaN, Double.NaN }
+        };
+
+        @Theory
+        public void test_cospi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
+
+            assertThat(cospi(x) + 0d, is(expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class tanpi_special {
+
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -1d, 0d },
+                { -0.75d, 1d },
+                { -0.5d, Double.POSITIVE_INFINITY },
+                { -0.25d, -1d },
+                { 0d, 0d },
+                { 0.25d, 1d },
+                { 0.5d, Double.POSITIVE_INFINITY },
+                { 0.75d, -1d },
+                { 1d, 0d },
+                { Double.NaN, Double.NaN }
+        };
+
+        @Theory
+        public void test_tanpi_at_special(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
+
+            if (Double.isInfinite(expected)) {
+                assertThat(Double.isInfinite(tanpi(x)), is(true));
+            } else {
+                assertThat(tanpi(x) + 0d, is(expected));
             }
         }
     }
@@ -99,6 +181,7 @@ final class TrigonometryTest {
             // compare Java API
             assertThat(acospi(x), is(closeTo(Math.acos(x) / Math.PI, 1E-12)));
         }
+
     }
 
     @RunWith(Theories.class)
