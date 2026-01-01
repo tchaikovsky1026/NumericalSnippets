@@ -17,7 +17,6 @@
 
 	<!-- ========== 初期化（ビルドディレクトリ作成） ========== -->
 	<target name="init">
-		<mkdir dir="${bin.dir}" />
 		<mkdir dir="${zipdist.dir}" />
 	</target>
 

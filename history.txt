@@ -1,0 +1,4 @@
+release/2026-01-02:
+- 三角関数関係
+    - sinpi, cospi, tanpiの整備.
+    - asinpi, acospi, atanpiの整備.
