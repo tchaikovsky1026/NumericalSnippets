@@ -113,4 +113,90 @@ public final class Trigonometry {
                 throw new AssertionError("unreachable");
         }
     }
+
+    /**
+     * asin(x) / pi の計算.
+     * |x| > 1 ならば NaN.
+     * 値域は -1/2 以上 1/2 以下.
+     * 
+     * @param x x
+     * @return asin(x) / pi
+     */
+    public static double asinpi(double x) {
+        if (!(Math.abs(x) <= 1d)) {
+            return Double.NaN;
+        }
+
+        // -2 <= 2x <= 2
+        switch ((int) (2d * x)) {
+            case -2:
+            case -1:
+                return -0.5d + Math.asin(Math.sqrt(1 - x * x)) / Math.PI;
+            case 0:
+                return Math.asin(x) / Math.PI;
+            case 1:
+            case 2:
+                return 0.5d - Math.asin(Math.sqrt(1 - x * x)) / Math.PI;
+            default:
+                throw new AssertionError("unreachable");
+        }
+    }
+
+    /**
+     * acos(x) / pi の計算.
+     * |x| > 1 ならば NaN.
+     * 値域は 0 以上 1 以下.
+     * 
+     * @param x x
+     * @return acos(x) / pi
+     */
+    public static double acospi(double x) {
+        if (!(Math.abs(x) <= 1d)) {
+            return Double.NaN;
+        }
+
+        // -2 <= 2x <= 2
+        switch ((int) (2d * x)) {
+            case -2:
+            case -1:
+                return 1d - Math.asin(Math.sqrt(1 - x * x)) / Math.PI;
+            case 0:
+                return 0.5d - Math.asin(x) / Math.PI;
+            case 1:
+            case 2:
+                return Math.asin(Math.sqrt(1 - x * x)) / Math.PI;
+            default:
+                throw new AssertionError("unreachable");
+        }
+    }
+
+    /**
+     * atan(x) / pi の計算.
+     * 値域は -1/2 以上 1/2 以下.
+     * 
+     * @param x x
+     * @return atan(x) / pi
+     */
+    public static double atanpi(double x) {
+        if (Math.abs(x) < 1.5d) {
+            // -3 < 2x < 3
+            switch ((int) (2d * x)) {
+                case -2:
+                case -1:
+                    return -0.25d + Math.atan((1 + x) / (1 - x)) / Math.PI;
+                case 0:
+                    return Math.atan(x) / Math.PI;
+                case 1:
+                case 2:
+                    return 0.25d + Math.atan((x - 1) / (x + 1)) / Math.PI;
+                default:
+                    throw new AssertionError("unreachable");
+            }
+        }
+
+        if (x < 0d) {
+            return -0.5d - Math.atan(1d / x) / Math.PI;
+        }
+        return 0.5d - Math.atan(1d / x) / Math.PI;
+    }
 }
