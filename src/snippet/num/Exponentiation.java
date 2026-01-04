@@ -66,8 +66,8 @@ public final class Exponentiation {
      */
     public static double logMultiplyAbs(double... x) {
 
-        final double MIN_ABS_THRESHOLD = 1E-100;
-        final double MAX_ABS_THRESHOLD = 1E+100;
+        final double MIN_ABS_THRESHOLD = 1E-150;
+        final double MAX_ABS_THRESHOLD = 1E+150;
 
         double logMultiplyAbs = 0;
         double leftover = 1;
@@ -77,6 +77,7 @@ public final class Exponentiation {
                 logMultiplyAbs += Math.log(v0);
                 continue;
             }
+
             leftover *= v0;
             if (leftover > MAX_ABS_THRESHOLD || leftover < MIN_ABS_THRESHOLD) {
                 logMultiplyAbs += Math.log(leftover);
@@ -84,9 +85,6 @@ public final class Exponentiation {
             }
         }
 
-        if (leftover != 1d) {
-            logMultiplyAbs += Math.log(leftover);
-        }
-        return logMultiplyAbs;
+        return logMultiplyAbs + Math.log(leftover);
     }
 }
