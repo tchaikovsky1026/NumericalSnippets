@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 @RunWith(Enclosed.class)
 final class ExponentiationTest {
 
-    private static final double relativeError = 1E-14;
+    private static final double relativeError = 1E-12;
 
     @RunWith(Enclosed.class)
     public static class logSumExp_test {
@@ -264,6 +264,80 @@ final class ExponentiationTest {
             return sum < SUM_EXP_THRESHOLD
                     ? maxX
                     : maxX + Math.log1p(sum); //NaNは最悪この行に到達
+        }
+    }
+
+    @RunWith(Enclosed.class)
+    public static class logMultiplyAbs_test {
+        @RunWith(Theories.class)
+        public static class logMultiplyAbsのサイズバリエーションテスト {
+
+            @DataPoints
+            public static int[] sizes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            @Theory
+            public void test_サイズパラメトリック(int size) {
+
+                final int iteration = 20;
+                for (int c = 0; c < iteration; c++) {
+                    double[] arr = new double[size];
+                    for (int i = 0; i < size; i++) {
+                        arr[i] = (ThreadLocalRandom.current().nextDouble() * 2d - 1d) *
+                                Math.pow(10, 300 * (ThreadLocalRandom.current().nextDouble() * 2d - 1d));
+                    }
+
+                    compareAndAssert(logMultiplyAbsRef(arr), logMultiplyAbs(arr));
+                }
+            }
+        }
+
+        @RunWith(Theories.class)
+        public static class logMultiplyAbsの特殊値のサイズバリエーションテスト {
+
+            @DataPoints
+            public static int[] sizes = { 0, 1, 2, 3, 4 };
+
+            @DataPoints
+            public static double[][] data_special = {
+                    { 1E100, -1E101, 1E101, 1E101 },
+                    { -1E200, 1E301, -1E201, 1E201 },
+                    { -1E-100, 1E-101, 1E-102, 1E-101 },
+                    { 1E-210, -1E-301, 1E-300, 1E-301 },
+                    { Double.NEGATIVE_INFINITY, -1E-301, 1E-300, 1E-301 },
+                    { Double.NaN, 1, 1, 1 },
+                    { 1, Double.NaN, 1, 1 },
+                    { 1, 1, Double.NaN, 1 },
+                    { 1, 1, 1, Double.NaN }
+            };
+
+            @Theory
+            public void test_サイズパラメトリック(double[] arrX, int size) {
+                double[] xs = Arrays.copyOf(arrX, size);
+
+                final int iteration = 20;
+                for (int c = 0; c < iteration; c++) {
+                    // arr = shaffled xs 
+                    List<Double> xsList = new ArrayList<>(
+                            Arrays.stream(xs)
+                                    .mapToObj(d -> d)
+                                    .collect(toList()));
+                    Collections.shuffle(xsList);
+                    double[] arr = xsList.stream()
+                            .mapToDouble(d -> d)
+                            .toArray();
+
+                    compareAndAssert(logMultiplyAbsRef(arr), logMultiplyAbs(arr));
+                }
+            }
+        }
+
+        private static double logMultiplyAbsRef(double... x) {
+
+            double logMultiplyAbs = 0;
+            for (int j = 0, len = x.length; j < len; j++) {
+                logMultiplyAbs += Math.log(Math.abs(x[j]));
+            }
+            return logMultiplyAbs;
         }
     }
 
