@@ -1,4 +1,4 @@
-develop:
+release/2026-01-04:
 - べき乗, 指数対数関係
     - log-summation-exp
     - log-multiply-abs
