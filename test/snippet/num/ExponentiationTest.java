@@ -341,6 +341,45 @@ final class ExponentiationTest {
         }
     }
 
+    @RunWith(Enclosed.class)
+    public static class pow_test {
+
+        @RunWith(Theories.class)
+        public static class powメソッドの値のテスト {
+
+            @DataPoints
+            public static double[] values;
+
+            public static double[] extreme = {
+                    Double.POSITIVE_INFINITY,
+                    Double.NEGATIVE_INFINITY,
+                    Double.NaN
+            };
+
+            @DataPoints
+            public static int[] exponent = { -3, -2, 0, 4, 5 };
+
+            @BeforeClass
+            public static void before_データ列の作成() {
+                List<Double> list = new ArrayList<>();
+                for (double x = -30; x <= 30; x += 0.25) {
+                    list.add(x);
+                }
+                for (Double x : extreme) {
+                    list.add(x);
+                }
+                values = list.stream()
+                        .mapToDouble(d -> d)
+                        .toArray();
+            }
+
+            @Theory
+            public void test_pow値(Double x, int n) {
+                compareAndAssert(Math.pow(x, n), pow(x, n));
+            }
+        }
+    }
+
     /**
      * assertion based on relative error.
      */

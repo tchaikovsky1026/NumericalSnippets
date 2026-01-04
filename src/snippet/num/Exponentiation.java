@@ -87,4 +87,42 @@ public final class Exponentiation {
 
         return logMultiplyAbs + Math.log(leftover);
     }
+
+    /**
+     * 整数乗の計算.
+     * 
+     * @param x x
+     * @param n n
+     * @return pow(x,n) = x^n
+     */
+    public static double pow(double x, int n) {
+
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+
+        /*
+         * 指数をビット解析して,
+         * x^(2^k) の積として表現する.
+         * xが0やinfであっても問題なく処理される.
+         * 
+         * 今, absNは1以上であるが, -2^{31}があり得る
+         * (計算上は2^{31}のつもりである).
+         * (1/2)倍の際に unsigned bit shift をすれば,
+         * 正しく2^{31}として扱うことができる.
+         * 
+         */
+        int np = n;
+        double xp = x;
+        double value = 1d;
+        while (np != 0) {
+            if ((np & 0x1) == 1) {
+                value *= xp;
+            }
+            xp = xp * xp;
+            np = np >>> 1;
+        }
+        return value;
+    }
 }
