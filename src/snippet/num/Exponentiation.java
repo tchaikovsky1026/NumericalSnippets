@@ -52,4 +52,39 @@ public final class Exponentiation {
 
         return exponent + Math.log(coeff);
     }
+
+    /**
+     * log-multiply-abs:
+     * log_e [|x_1||x_2| ... ]
+     * の計算.
+     * 
+     * x.length = 0 のとき 0.
+     *
+     * @param x x_1, x_2, ...
+     * @return log_e [|x_1||x_2| ... ]
+     * @throws NullPointerException null
+     */
+    public static double logMultiplyAbs(double... x) {
+
+        final double MIN_ABS_THRESHOLD = 1E-150;
+        final double MAX_ABS_THRESHOLD = 1E+150;
+
+        double logMultiplyAbs = 0;
+        double leftover = 1;
+        for (int j = 0, len = x.length; j < len; j++) {
+            double v0 = Math.abs(x[j]);
+            if (v0 < MIN_ABS_THRESHOLD || v0 > MAX_ABS_THRESHOLD) {
+                logMultiplyAbs += Math.log(v0);
+                continue;
+            }
+
+            leftover *= v0;
+            if (leftover > MAX_ABS_THRESHOLD || leftover < MIN_ABS_THRESHOLD) {
+                logMultiplyAbs += Math.log(leftover);
+                leftover = 1d;
+            }
+        }
+
+        return logMultiplyAbs + Math.log(leftover);
+    }
 }
