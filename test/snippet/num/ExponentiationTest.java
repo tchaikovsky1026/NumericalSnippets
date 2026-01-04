@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 @RunWith(Enclosed.class)
 final class ExponentiationTest {
 
-    private static final double relativeError = 1E-12;
+    private static final double relativeError = 1E-14;
 
     @RunWith(Theories.class)
     public static class logSumExpのサイズバリエーションテスト {
