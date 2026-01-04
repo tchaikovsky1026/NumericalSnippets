@@ -89,39 +89,36 @@ public final class Exponentiation {
     }
 
     /**
-     * 整数乗の計算.
+     * 整数乗 (x^n) の計算.
+     * n = 0 のとき 1.
      * 
      * @param x x
      * @param n n
-     * @return pow(x,n) = x^n
+     * @return x^n
      */
     public static double pow(double x, int n) {
 
+        // 正の指数として処理する.
+        // n = -2^{31} の場合, -n = 2^{31} と解釈する
+        // 1/x でオーバーフローしてもよい.
         if (n < 0) {
             x = 1 / x;
             n = -n;
         }
 
-        /*
-         * 指数をビット解析して,
-         * x^(2^k) の積として表現する.
-         * xが0やinfであっても問題なく処理される.
-         * 
-         * 今, absNは1以上であるが, -2^{31}があり得る
-         * (計算上は2^{31}のつもりである).
-         * (1/2)倍の際に unsigned bit shift をすれば,
-         * 正しく2^{31}として扱うことができる.
-         * 
-         */
+        // 指数をビット解析し, x^(2^k) の積として表現
+        // n = -2^{31} の場合も正常に動作する
         int np = n;
         double xp = x;
         double value = 1d;
         while (np != 0) {
-            if ((np & 0x1) == 1) {
+            if ((np & 1) == 1) {
                 value *= xp;
             }
             xp = xp * xp;
-            np = np >>> 1;
+
+            // unsigned bit shift により -n = 2^{31} を正しく扱う
+            np >>>= 1;
         }
         return value;
     }
