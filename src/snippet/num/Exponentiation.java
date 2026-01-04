@@ -87,4 +87,39 @@ public final class Exponentiation {
 
         return logMultiplyAbs + Math.log(leftover);
     }
+
+    /**
+     * 整数乗 (x^n) の計算.
+     * n = 0 のとき 1.
+     * 
+     * @param x x
+     * @param n n
+     * @return x^n
+     */
+    public static double pow(double x, int n) {
+
+        // 正の指数として処理する.
+        // n = -2^{31} の場合, -n = 2^{31} と解釈する
+        // 1/x でオーバーフローしてもよい.
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+
+        // 指数をビット解析し, x^(2^k) の積として表現
+        // n = -2^{31} の場合も正常に動作する
+        int np = n;
+        double xp = x;
+        double value = 1d;
+        while (np != 0) {
+            if ((np & 1) == 1) {
+                value *= xp;
+            }
+            xp = xp * xp;
+
+            // unsigned bit shift により -n = 2^{31} を正しく扱う
+            np >>>= 1;
+        }
+        return value;
+    }
 }
