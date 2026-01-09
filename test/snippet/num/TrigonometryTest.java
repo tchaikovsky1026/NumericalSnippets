@@ -271,4 +271,82 @@ final class TrigonometryTest {
             assertThat(atanpi(x) + 0d, is(expected));
         }
     }
+
+    @RunWith(Theories.class)
+    public static class sinc_and_sincn_compareToJavaApi {
+
+        @DataPoints
+        public static double[] xs;
+
+        @BeforeClass
+        public static void before_prepareX() {
+            double xMin = -10d;
+            double xMax = 10d;
+            double deltaX = 1d / 64;
+
+            xs = DoubleStream.iterate(xMin, x -> x + deltaX)
+                    .limit(10_000)
+                    .filter(x -> x <= xMax)
+                    .toArray();
+        }
+
+        @Theory
+        public void test_sinc(double x) {
+            // compare to Java API
+            double expectedCandidate = Math.sin(x) / x;
+            double expected = Double.isFinite(expectedCandidate)
+                    ? expectedCandidate
+                    : 1d;
+            assertThat(sinc(x), is(closeTo(expected, 1E-200 + 1E-12 * Math.abs(x))));
+        }
+
+        @Theory
+        public void test_sincn(double x) {
+            // compare to Java API
+            double expectedCandidate = Math.sin(Math.PI * x) / (Math.PI * x);
+            double expected = Double.isFinite(expectedCandidate)
+                    ? expectedCandidate
+                    : 1d;
+            assertThat(sincn(x), is(closeTo(expected, 1E-12 * Math.abs(x))));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class sinc_and_sincn_special {
+
+        @DataPoints
+        public static double[] xs = {
+                Double.MAX_VALUE * 0.125,
+                Double.MAX_VALUE * 0.25,
+                Double.MAX_VALUE * 0.5,
+                Double.MAX_VALUE * 0.75,
+                Double.MAX_VALUE,
+                -Double.MAX_VALUE * 0.125,
+                -Double.MAX_VALUE * 0.25,
+                -Double.MAX_VALUE * 0.5,
+                -Double.MAX_VALUE * 0.75,
+                -Double.MAX_VALUE,
+                Double.POSITIVE_INFINITY,
+                Double.NEGATIVE_INFINITY,
+                Double.NaN
+        };
+
+        @Theory
+        public void test_sinc(double x) {
+            if (Double.isNaN(x)) {
+                assertThat(sinc(x), is(Double.NaN));
+            } else {
+                assertThat(sinc(x), is(closeTo(0d, 1E-100)));
+            }
+        }
+
+        @Theory
+        public void test_sincn(double x) {
+            if (Double.isNaN(x)) {
+                assertThat(sincn(x), is(Double.NaN));
+            } else {
+                assertThat(sincn(x), is(closeTo(0d, 1E-100)));
+            }
+        }
+    }
 }

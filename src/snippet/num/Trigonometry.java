@@ -4,7 +4,7 @@
  */
 
 /*
- * 2026.1.2
+ * 2026.1.9
  */
 package snippet.num;
 
@@ -216,5 +216,37 @@ public final class Trigonometry {
             return -0.5d - Math.atan(1d / x) / Math.PI;
         }
         return 0.5d - Math.atan(1d / x) / Math.PI;
+    }
+
+    /**
+     * sinc(x) = sin(x) / x の計算.
+     * 
+     * @param x x
+     * @return sinc(x)
+     */
+    public static double sinc(double x) {
+        if (Math.abs(x) <= 1E-200) {
+            return 1d;
+        }
+        double sinx = Math.sin(x);
+        return Double.isFinite(sinx)
+                ? sinx / x
+                : Double.isNaN(x) ? Double.NaN : 0d;
+    }
+
+    /**
+     * (正規化されたsinc) sincn(x) = sin(pi * x) / (pi * x) の計算.
+     * 
+     * @param x x
+     * @return sincn(x)
+     */
+    public static double sincn(double x) {
+        if (Math.abs(x) <= 1E-200) {
+            return 1d;
+        }
+        double sinpix = sinpi(x);
+        return Double.isFinite(sinpix)
+                ? sinpix / (Math.PI * x)
+                : Double.isNaN(x) ? Double.NaN : 0d;
     }
 }
