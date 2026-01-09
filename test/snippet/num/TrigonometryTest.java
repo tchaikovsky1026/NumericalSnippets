@@ -349,4 +349,91 @@ final class TrigonometryTest {
             }
         }
     }
+
+    @RunWith(Theories.class)
+    public static class cosm1_and_cosm1pi_compareToJavaApi {
+
+        @DataPoints
+        public static double[] xs;
+
+        @BeforeClass
+        public static void before_prepareX() {
+            double xMin = -10d;
+            double xMax = 10d;
+            double deltaX = 1d / 64;
+
+            xs = DoubleStream.iterate(xMin, x -> x + deltaX)
+                    .limit(10_000)
+                    .filter(x -> x <= xMax)
+                    .toArray();
+        }
+
+        @Theory
+        public void test_cosm1(double x) {
+            // compare to Java API
+            double expected = Math.cos(x) - 1d;
+            assertThat(cosm1(x), is(closeTo(expected, 1E-12)));
+        }
+
+        @Theory
+        public void test_cosm1pi(double x) {
+            // compare to Java API
+            double expected = Math.cos(Math.PI * x) - 1d;
+            assertThat(cosm1pi(x), is(closeTo(expected, 1E-12)));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class cosm1_compareToTaylor {
+
+        @DataPoints
+        public static double[] xs;
+
+        @BeforeClass
+        public static void before_prepareX() {
+            // 2^(-60)の範囲で検証： 8.67E-19
+            double range = Math.scalb(1d, -60);
+            double xMin = -range;
+            double xMax = range;
+            double deltaX = range / 256;
+
+            xs = DoubleStream.iterate(xMin, x -> x + deltaX)
+                    .limit(10_000)
+                    .filter(x -> x <= xMax)
+                    .toArray();
+        }
+
+        @Theory
+        public void test_cosm1(double x) {
+            // compare to Taylor series
+            double expected = -x * x * 0.5;
+            assertThat(cosm1(x) + 0d, is(expected + 0d));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class cosm1pi_special {
+
+        @DataPoints
+        public static double[][] xs_and_expected = {
+                { -2d, 0d },
+                { -1.5d, -1d },
+                { -1d, -2d },
+                { -0.5d, -1d },
+                { 0d, 0d },
+                { 0.5d, -1d },
+                { 1d, -2d },
+                { 1.5d, -1d },
+                { 2d, 0d },
+                { Double.NaN, Double.NaN }
+        };
+
+        @Theory
+        public void test_cosm1pi(double[] pair) {
+            double x = pair[0];
+            double expected = pair[1];
+
+            assertThat(cosm1pi(x) + 0d, is(expected));
+        }
+    }
 }
