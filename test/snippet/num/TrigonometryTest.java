@@ -273,7 +273,7 @@ final class TrigonometryTest {
     }
 
     @RunWith(Theories.class)
-    public static class sinc_and_sincn_compareToJavaApi {
+    public static class sinc_and_sincpi_compareToJavaApi {
 
         @DataPoints
         public static double[] xs;
@@ -301,18 +301,18 @@ final class TrigonometryTest {
         }
 
         @Theory
-        public void test_sincn(double x) {
+        public void test_sincpi(double x) {
             // compare to Java API
             double expectedCandidate = Math.sin(Math.PI * x) / (Math.PI * x);
             double expected = Double.isFinite(expectedCandidate)
                     ? expectedCandidate
                     : 1d;
-            assertThat(sincn(x), is(closeTo(expected, 1E-12 * Math.abs(x))));
+            assertThat(sincpi(x), is(closeTo(expected, 1E-12 * Math.abs(x))));
         }
     }
 
     @RunWith(Theories.class)
-    public static class sinc_and_sincn_special {
+    public static class sinc_and_sincpi_special {
 
         @DataPoints
         public static double[] xs = {
@@ -341,11 +341,11 @@ final class TrigonometryTest {
         }
 
         @Theory
-        public void test_sincn(double x) {
+        public void test_sincpi(double x) {
             if (Double.isNaN(x)) {
-                assertThat(sincn(x), is(Double.NaN));
+                assertThat(sincpi(x), is(Double.NaN));
             } else {
-                assertThat(sincn(x), is(closeTo(0d, 1E-100)));
+                assertThat(sincpi(x), is(closeTo(0d, 1E-100)));
             }
         }
     }

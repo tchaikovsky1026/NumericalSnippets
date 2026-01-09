@@ -219,10 +219,10 @@ public final class Trigonometry {
     }
 
     /**
-     * sinc(x) = sin(x) / x の計算.
+     * sinc関数の計算: sin(x) / x.
      * 
      * @param x x
-     * @return sinc(x)
+     * @return sin(x) / x
      */
     public static double sinc(double x) {
         if (Math.abs(x) <= 1E-200) {
@@ -235,12 +235,12 @@ public final class Trigonometry {
     }
 
     /**
-     * (正規化されたsinc) sincn(x) = sin(pi * x) / (pi * x) の計算.
+     * 正規化されたsinc関数の計算: sin(pi * x) / (pi * x).
      * 
      * @param x x
-     * @return sincn(x)
+     * @return sin(pi * x) / (pi * x)
      */
-    public static double sincn(double x) {
+    public static double sincpi(double x) {
         if (Math.abs(x) <= 1E-200) {
             return 1d;
         }
