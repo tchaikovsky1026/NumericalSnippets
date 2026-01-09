@@ -1,4 +1,4 @@
-develop:
+release/2026-01-09:
 - 三角関数関連の追加
     - sinc, sincpi
     - cosm1, cosm1pi
