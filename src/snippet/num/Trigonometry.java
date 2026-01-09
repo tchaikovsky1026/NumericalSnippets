@@ -4,7 +4,7 @@
  */
 
 /*
- * 2026.1.2
+ * 2026.1.9
  */
 package snippet.num;
 
@@ -216,5 +216,69 @@ public final class Trigonometry {
             return -0.5d - Math.atan(1d / x) / Math.PI;
         }
         return 0.5d - Math.atan(1d / x) / Math.PI;
+    }
+
+    /**
+     * sinc関数の計算: sin(x) / x.
+     * 
+     * @param x x
+     * @return sin(x) / x
+     */
+    public static double sinc(double x) {
+        if (Math.abs(x) <= 1E-200) {
+            return 1d;
+        }
+        double sinx = Math.sin(x);
+        return Double.isFinite(sinx)
+                ? sinx / x
+                : Double.isNaN(x) ? Double.NaN : 0d;
+    }
+
+    /**
+     * 正規化されたsinc関数の計算: sin(pi * x) / (pi * x).
+     * 
+     * @param x x
+     * @return sin(pi * x) / (pi * x)
+     */
+    public static double sincpi(double x) {
+        if (Math.abs(x) <= 1E-200) {
+            return 1d;
+        }
+        double sinpix = sinpi(x);
+        return Double.isFinite(sinpix)
+                ? sinpix / (Math.PI * x)
+                : Double.isNaN(x) ? Double.NaN : 0d;
+    }
+
+    /**
+     * cos(x) - 1 の計算.
+     * 
+     * @param x x
+     * @return cos(x) - 1
+     */
+    public static double cosm1(double x) {
+        double absX = Math.abs(x);
+        if (absX < (Math.PI * 0.5)) {
+            double sinAbsX = Math.sin(absX);
+            double sinx2 = sinAbsX * sinAbsX;
+            return -sinx2 / (1d + Math.sqrt(1 - sinx2));
+        }
+        return Math.cos(x) - 1d;
+    }
+
+    /**
+     * cos(pi * x) - 1 の計算.
+     * 
+     * @param x x
+     * @return cos(x) - 1
+     */
+    public static double cosm1pi(double x) {
+        double absX = Math.abs(x);
+        if (absX < 0.5) {
+            double sinpiAbsX = sinpi(absX);
+            double sinpix2 = sinpiAbsX * sinpiAbsX;
+            return -sinpix2 / (1d + Math.sqrt(1 - sinpix2));
+        }
+        return cospi(x) - 1d;
     }
 }
