@@ -1,6 +1,7 @@
 develop:
 - 三角関数関連の追加
     - sinc
+    - cosm1, cosm1pi
 
 release/2026-01-04:
 - べき乗, 指数対数関係
