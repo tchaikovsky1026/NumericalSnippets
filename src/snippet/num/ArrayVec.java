@@ -9,11 +9,11 @@
 package snippet.num;
 
 /**
- * 配列に対する数値計算スニペット.
+ * 配列ベクトルに関する数値計算スニペット.
  */
-public final class ArrayNum {
+public final class ArrayVec {
 
-    private ArrayNum() {
+    private ArrayVec() {
         // インスタンス化不可
         throw new AssertionError();
     }
