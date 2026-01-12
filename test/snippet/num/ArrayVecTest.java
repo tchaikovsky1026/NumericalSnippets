@@ -7,7 +7,7 @@ package snippet.num;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static snippet.num.ArrayNum.*;
+import static snippet.num.ArrayVec.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,10 +18,10 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /**
- * {@link ArrayNum} test.
+ * {@link ArrayVec} test.
  */
 @RunWith(Enclosed.class)
-final class ArrayNumTest {
+final class ArrayVecTest {
 
     private static final double relativeError = 1E-12;
 
