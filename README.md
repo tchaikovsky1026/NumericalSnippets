@@ -7,6 +7,8 @@ Java の標準APIのみを利用したコードになっている.
 - `snippet.num` パッケージ
     - 三角関数の計算に関する補助
     - べき乗, 指数対数の計算に関する補助
+    - 配列ベクトル計算補助
+        - ノルム計算
 
 ## Distribution
 - Source code is provided as a zip archive.
