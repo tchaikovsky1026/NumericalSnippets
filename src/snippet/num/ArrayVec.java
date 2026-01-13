@@ -71,10 +71,12 @@ public final class ArrayVec {
                 return absV;
             }
 
-            // equals Math.max(Double.MIN_NORMAL, Math.scalb(1.0, Math.getExponent(absV)))
-            double candidateScale = Math.max(
-                    Double.MIN_NORMAL,
-                    Double.longBitsToDouble(Double.doubleToRawLongBits(absV) & 0xFFF0_0000_0000_0000L));
+            // neally-equals: 
+            //    Math.scalb(1.0, Math.getExponent(absV))
+            //    or zero
+            double candidateScale =
+                    Double.longBitsToDouble(
+                            Double.doubleToRawLongBits(absV) & 0xFFF0_0000_0000_0000L);
 
             /*
              * scale > candidateScale
