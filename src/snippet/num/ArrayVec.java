@@ -4,28 +4,27 @@
  */
 
 /*
- * 2026.1.12
+ * 2026.4.30
  */
 package snippet.num;
 
 /**
- * 配列ベクトルに関する数値計算スニペット.
+ * A snippet for numerical operations on array-based vectors.
  */
 public final class ArrayVec {
 
     private ArrayVec() {
-        // インスタンス化不可
+        // Cannot be instantiated
         throw new AssertionError();
     }
 
     /**
-     * max-norm (inf-norm):
-     * max(|x_1|, |x_2|, ...)
-     * の計算.
+     * Calculate max-norm (inf-norm):
+     * max(|x_1|, |x_2|, ... ).
      * 
      * @param x x_1, x_2, ...
      * @return max(|x_1|, |x_2|, ...)
-     * @throws NullPointerException null
+     * @throws NullPointerException arg is null
      */
     public static double normMax(double... x) {
         double maxValue = 0d;
@@ -36,13 +35,12 @@ public final class ArrayVec {
     }
 
     /**
-     * 1-norm:
-     * |x_1| + |x_2| + ...
-     * の計算.
+     * Calculate 1-norm:
+     * (|x_1| + |x_2| + ... ).
      * 
      * @param x x_1, x_2, ...
      * @return |x_1| + |x_2| + ...
-     * @throws NullPointerException null
+     * @throws NullPointerException arg is null
      */
     public static double norm1(double... x) {
         double sum = 0d;
@@ -53,13 +51,12 @@ public final class ArrayVec {
     }
 
     /**
-     * 2-norm:
-     * sqrt(|x_1|^2 + |x_2|^2 + ... )
-     * の計算.
+     * Calculate 2-norm:
+     * sqrt(|x_1|^2 + |x_2|^2 + ... ).
      * 
      * @param x x_1, x_2, ...
      * @return sqrt(|x_1|^2 + |x_2|^2 + ... )
-     * @throws NullPointerException null
+     * @throws NullPointerException arg is null
      */
     public static double norm2(double... x) {
         double sum = 0d;
@@ -71,10 +68,12 @@ public final class ArrayVec {
                 return absV;
             }
 
-            // equals Math.max(Double.MIN_NORMAL, Math.scalb(1.0, Math.getExponent(absV)))
-            double candidateScale = Math.max(
-                    Double.MIN_NORMAL,
-                    Double.longBitsToDouble(Double.doubleToRawLongBits(absV) & 0xFFF0_0000_0000_0000L));
+            // neally-equals: 
+            //    Math.scalb(1.0, Math.getExponent(absV))
+            //    or zero
+            double candidateScale =
+                    Double.longBitsToDouble(
+                            Double.doubleToRawLongBits(absV) & 0xFFF0_0000_0000_0000L);
 
             /*
              * scale > candidateScale
