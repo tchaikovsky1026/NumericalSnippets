@@ -18,6 +18,8 @@ The following is included:
 - Source code is provided as a zip archive.
 - This is not a library and is not intended to be used as a dependency.
 - Copy and paste the source files into your project as needed.
+- Simple documentation (Javadoc):  
+https://tchaikovsky1026.github.io/NumericalSnippets/
 
 ## History
 See `history.txt` for the change log.
