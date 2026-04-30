@@ -4,30 +4,29 @@
  */
 
 /*
- * 2026.1.4
+ * 2026.4.30
  */
 package snippet.num;
 
 /**
- * べき乗, 指数対数の計算に関わる数値計算スニペット.
+ * A snippet for numerical operations on powers, exponentials, and logarithms.
  */
 public final class Exponentiation {
 
     private Exponentiation() {
-        // インスタンス化不可
+        // Cannot be instantiated
         throw new AssertionError();
     }
 
     /**
-     * log-summation-exp:
-     * log_e [e^{x_1} + e^{x_2} + ... ]
-     * の計算.
+     * Calculate log-summation-exp:
+     * log_e [e^{x_1} + e^{x_2} + ... ].
      * 
-     * x.length = 0 のとき -inf.
+     * Return -inf if x.length = 0.
      * 
      * @param x x_1, x_2, ...
      * @return log_e [e^{x_1} + e^{x_2} + ... ]
-     * @throws NullPointerException null
+     * @throws NullPointerException arg is null
      */
     public static double logSumExp(double... x) {
 
@@ -54,15 +53,14 @@ public final class Exponentiation {
     }
 
     /**
-     * log-multiply-abs:
-     * log_e [|x_1||x_2| ... ]
-     * の計算.
+     * Calculate log-multiply-abs:
+     * log_e [|x_1||x_2| ... ].
      * 
-     * x.length = 0 のとき 0.
+     * Return 0 if x.length = 0.
      *
      * @param x x_1, x_2, ...
      * @return log_e [|x_1||x_2| ... ]
-     * @throws NullPointerException null
+     * @throws NullPointerException arg is null
      */
     public static double logMultiplyAbs(double... x) {
 
@@ -89,8 +87,8 @@ public final class Exponentiation {
     }
 
     /**
-     * 整数乗 (x^n) の計算.
-     * n = 0 のとき 1.
+     * Calculate x^n (the nth power of x).
+     * Return 1 if n = 0.
      * 
      * @param x x
      * @param n n
@@ -98,16 +96,16 @@ public final class Exponentiation {
      */
     public static double pow(double x, int n) {
 
-        // 正の指数として処理する.
-        // n = -2^{31} の場合, -n = 2^{31} と解釈する
-        // 1/x でオーバーフローしてもよい.
+        // n to positive.
+        // If n = -2^{31}, -n is interpreted as 2^{31}.
+        // Overflow of 1/x is acceptable.
         if (n < 0) {
             x = 1 / x;
             n = -n;
         }
 
-        // 指数をビット解析し, x^(2^k) の積として表現
-        // n = -2^{31} の場合も正常に動作する
+        // By analyzing bit-pattern of n, x^n is expressed as the product of x^(2^k).
+        // It works correctly when -n = 2^{31}.
         int np = n;
         double xp = x;
         double value = 1d;
@@ -117,7 +115,8 @@ public final class Exponentiation {
             }
             xp = xp * xp;
 
-            // unsigned bit shift により -n = 2^{31} を正しく扱う
+            // To handle a case of -n = 2^{31},
+            // unsigned bit shift is used.
             np >>>= 1;
         }
         return value;

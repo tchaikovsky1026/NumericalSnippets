@@ -3,9 +3,6 @@
  * See the UNLICENSE file for details.
  */
 
-/*
- * 2025.12.30
- */
 package snippet.num;
 
 import static org.hamcrest.CoreMatchers.is;

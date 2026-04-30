@@ -1,14 +1,18 @@
 # NumericalSnippets
-Java 言語向けの数値計算スニペットであるソースコードを提供する.
-Java の標準APIのみを利用したコードになっている.
 
-次が含まれる.
+![Java](https://img.shields.io/badge/Java-8%2B-orange)
+![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)
 
-- `snippet.num` パッケージ
-    - 三角関数の計算に関する補助
-    - べき乗, 指数対数の計算に関する補助
-    - 配列ベクトル計算補助
-        - ノルム計算
+Provides source code snippets for numerical computations in the Java programming language.  
+All code is implemented using only the standard Java API.
+
+The following is included:
+
+- `snippet.num` package
+    - Utilities for trigonometric functions
+    - Utilities for powers, exponentials, and logarithms
+    - Utilities for array-based vector computations
+        - Norm calculations
 
 ## Distribution
 - Source code is provided as a zip archive.
@@ -16,7 +20,7 @@ Java の標準APIのみを利用したコードになっている.
 - Copy and paste the source files into your project as needed.
 
 ## History
-更新履歴は history.txt を参照のこと.
+See `history.txt` for the change log.
 
 ## License
 This repository is released into the public domain under the Unlicense.
