@@ -24,7 +24,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /**
- * {@link Exponentiation} のテスト
+ * {@link Exponentiation} test.
  */
 @RunWith(Enclosed.class)
 final class ExponentiationTest {
@@ -35,13 +35,13 @@ final class ExponentiationTest {
     public static class logSumExp_test {
 
         @RunWith(Theories.class)
-        public static class logSumExpのサイズバリエーションテスト {
+        public static class logSumExp_validateSize {
 
             @DataPoints
             public static int[] sizes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             @Theory
-            public void test_サイズパラメトリック(int size) {
+            public void test_parametric_size(int size) {
 
                 final int iteration = 20;
                 for (int c = 0; c < iteration; c++) {
@@ -56,7 +56,7 @@ final class ExponentiationTest {
         }
 
         @RunWith(Theories.class)
-        public static class logSumExpの特殊値のサイズバリエーションテスト {
+        public static class logSumExp_validateSize_specialCase {
 
             @DataPoints
             public static int[] sizes = { 0, 1, 2, 3, 4 };
@@ -77,7 +77,7 @@ final class ExponentiationTest {
             };
 
             @Theory
-            public void test_サイズパラメトリック(double[] arrX, int size) {
+            public void test_parametric_size(double[] arrX, int size) {
                 double[] xs = Arrays.copyOf(arrX, size);
 
                 final int iteration = 20;
@@ -98,7 +98,7 @@ final class ExponentiationTest {
         }
 
         @RunWith(Theories.class)
-        public static class logSumExpのリファレンスのサイズバリエーションテスト {
+        public static class logSumExp_validateSize_referenceFunction {
 
             @DataPoints
             public static List<double[]> data;
@@ -139,14 +139,14 @@ final class ExponentiationTest {
             }
 
             @Theory
-            public void test_サイズ0(double[] arrX) {
+            public void test_size_0(double[] arrX) {
                 double expected = Double.NEGATIVE_INFINITY;
 
                 compareAndAssert(expected, logSumExpRef());
             }
 
             @Theory
-            public void test_サイズ1(double[] arrX) {
+            public void test_size_1(double[] arrX) {
                 double x1 = arrX[0];
 
                 double expected = x1;
@@ -154,7 +154,7 @@ final class ExponentiationTest {
             }
 
             @Theory
-            public void test_サイズ2(double[] arrX) {
+            public void test_size_2(double[] arrX) {
                 double x1 = arrX[0];
                 double x2 = arrX[1];
 
@@ -164,7 +164,7 @@ final class ExponentiationTest {
             }
 
             @Theory
-            public void test_サイズ3(double[] arrX) {
+            public void test_size_3(double[] arrX) {
                 double x1 = arrX[0];
                 double x2 = arrX[1];
                 double x3 = arrX[2];
@@ -176,7 +176,7 @@ final class ExponentiationTest {
             }
 
             @Theory
-            public void test_サイズ4(double[] arrX) {
+            public void test_size_4(double[] arrX) {
                 double x1 = arrX[0];
                 double x2 = arrX[1];
                 double x3 = arrX[2];
@@ -270,13 +270,13 @@ final class ExponentiationTest {
     @RunWith(Enclosed.class)
     public static class logMultiplyAbs_test {
         @RunWith(Theories.class)
-        public static class logMultiplyAbsのサイズバリエーションテスト {
+        public static class logMultiplyAbs_validateSize {
 
             @DataPoints
             public static int[] sizes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             @Theory
-            public void test_サイズパラメトリック(int size) {
+            public void test_parametric_size(int size) {
 
                 final int iteration = 20;
                 for (int c = 0; c < iteration; c++) {
@@ -292,7 +292,7 @@ final class ExponentiationTest {
         }
 
         @RunWith(Theories.class)
-        public static class logMultiplyAbsの特殊値のサイズバリエーションテスト {
+        public static class logMultiplyAbs_validateSize_specialCase {
 
             @DataPoints
             public static int[] sizes = { 0, 1, 2, 3, 4 };
@@ -311,7 +311,7 @@ final class ExponentiationTest {
             };
 
             @Theory
-            public void test_サイズパラメトリック(double[] arrX, int size) {
+            public void test_parametric_size(double[] arrX, int size) {
                 double[] xs = Arrays.copyOf(arrX, size);
 
                 final int iteration = 20;
@@ -345,7 +345,7 @@ final class ExponentiationTest {
     public static class pow_test {
 
         @RunWith(Theories.class)
-        public static class powメソッドの値のテスト {
+        public static class pow_value_test {
 
             @DataPoints
             public static double[] values;
@@ -360,7 +360,7 @@ final class ExponentiationTest {
             public static int[] exponent = { -3, -2, 0, 4, 5 };
 
             @BeforeClass
-            public static void before_データ列の作成() {
+            public static void before_createData() {
                 List<Double> list = new ArrayList<>();
                 for (double x = -30; x <= 30; x += 0.25) {
                     list.add(x);
@@ -374,7 +374,7 @@ final class ExponentiationTest {
             }
 
             @Theory
-            public void test_pow値(Double x, int n) {
+            public void test_pow_value(Double x, int n) {
                 compareAndAssert(Math.pow(x, n), pow(x, n));
             }
         }
