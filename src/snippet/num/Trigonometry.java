@@ -135,8 +135,8 @@ public final class Trigonometry {
 
     /**
      * Calculate asin(x) / pi.
-     * Return NaN if |x| > 1.
-     * A range of returned value y is -1/2 <= y <= 1/2.
+     * Return NaN if {@literal |x| > 1}.
+     * A range of returned value y is {@literal -1/2 <= y <= 1/2}.
      * 
      * @param x x
      * @return asin(x) / pi
@@ -163,8 +163,8 @@ public final class Trigonometry {
 
     /**
      * Calculate acos(x) / pi.
-     * Return NaN if |x| > 1.
-     * A range of returned value y is 0 <= y <= 1.
+     * Return NaN if {@literal |x| > 1}.
+     * A range of returned value y is {@literal 0 <= y <= 1}.
      * 
      * @param x x
      * @return acos(x) / pi
@@ -191,7 +191,7 @@ public final class Trigonometry {
 
     /**
      * Calculate atan(x) / pi.
-     * A range of returned value y is -1/2 <= y <= 1/2.
+     * A range of returned value y is {@literal -1/2 <= y <= 1/2}.
      * 
      * @param x x
      * @return atan(x) / pi
