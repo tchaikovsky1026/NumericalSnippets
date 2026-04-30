@@ -4,22 +4,22 @@
  */
 
 /*
- * 2026.1.9
+ * 2026.4.30
  */
 package snippet.num;
 
 /**
- * 三角関数の計算に関わる数値計算スニペット.
+ * A snippet for numerical operations on trigonometric functions.
  */
 public final class Trigonometry {
 
     private Trigonometry() {
-        // インスタンス化不可
+        // Cannot be instantiated
         throw new AssertionError();
     }
 
     /**
-     * sin(pi * x) の計算.
+     * Calculate sin(pi * x).
      * 
      * @param x x
      * @return sin(pi * x)
@@ -30,10 +30,10 @@ public final class Trigonometry {
             return Double.NaN;
         }
 
-        // -2 < x < 2 となる
+        // x to -2 < x < 2
         x %= 2d;
 
-        // switch-caseは-3から3まで
+        // -3 <= int(2x) <= 3
         switch ((int) (2d * x)) {
             case -3:
                 return Math.sin(Math.PI * (2d + x));
@@ -53,7 +53,7 @@ public final class Trigonometry {
     }
 
     /**
-     * cos(pi * x) の計算.
+     * Calculate cos(pi * x).
      * 
      * @param x x
      * @return cos(pi * x)
@@ -64,12 +64,12 @@ public final class Trigonometry {
             return Double.NaN;
         }
 
-        // cos(t) = cos(-t) を利用
-        // 0 <= x < 2 となる
+        // use cos(t) = cos(-t)
+        // x to 0 <= x < 2
         x %= 2d;
         x = Math.abs(x);
 
-        // switch-caseは0から1まで
+        // 0 <= int(x) <= 1
         switch ((int) x) {
             case 0:
                 return -Math.sin(Math.PI * (x - 0.5d));
@@ -81,7 +81,7 @@ public final class Trigonometry {
     }
 
     /**
-     * tan(pi * x) の計算.
+     * Calculate tan(pi * x).
      * 
      * @param x x
      * @return tan(pi * x)
@@ -92,8 +92,9 @@ public final class Trigonometry {
             return Double.NaN;
         }
 
+        // -1 < x < 1
         x %= 1d;
-        // -8 < 8x < 8
+        // -7 <= int(8x) <= 7
         switch ((int) (8d * x)) {
             case -7:
                 return Math.tan(Math.PI * (x + 1d));
@@ -133,9 +134,9 @@ public final class Trigonometry {
     }
 
     /**
-     * asin(x) / pi の計算.
-     * |x| > 1 ならば NaN.
-     * 値域は -1/2 以上 1/2 以下.
+     * Calculate asin(x) / pi.
+     * Return NaN if |x| > 1.
+     * A range of returned value y is -1/2 <= y <= 1/2.
      * 
      * @param x x
      * @return asin(x) / pi
@@ -161,9 +162,9 @@ public final class Trigonometry {
     }
 
     /**
-     * acos(x) / pi の計算.
-     * |x| > 1 ならば NaN.
-     * 値域は 0 以上 1 以下.
+     * Calculate acos(x) / pi.
+     * Return NaN if |x| > 1.
+     * A range of returned value y is 0 <= y <= 1.
      * 
      * @param x x
      * @return acos(x) / pi
@@ -189,8 +190,8 @@ public final class Trigonometry {
     }
 
     /**
-     * atan(x) / pi の計算.
-     * 値域は -1/2 以上 1/2 以下.
+     * Calculate atan(x) / pi.
+     * A range of returned value y is -1/2 <= y <= 1/2.
      * 
      * @param x x
      * @return atan(x) / pi
@@ -219,10 +220,10 @@ public final class Trigonometry {
     }
 
     /**
-     * sinc関数の計算: sin(x) / x.
+     * Calculate sinc(x) = sin(x) / x.
      * 
      * @param x x
-     * @return sin(x) / x
+     * @return sinc(x) = sin(x) / x
      */
     public static double sinc(double x) {
         if (Math.abs(x) <= 1E-200) {
@@ -235,10 +236,10 @@ public final class Trigonometry {
     }
 
     /**
-     * 正規化されたsinc関数の計算: sin(pi * x) / (pi * x).
+     * Calculate normalized sinc: sinc(pi * x) = sin(pi * x) / (pi * x).
      * 
      * @param x x
-     * @return sin(pi * x) / (pi * x)
+     * @return sinc(pi * x) = sin(pi * x) / (pi * x)
      */
     public static double sincpi(double x) {
         if (Math.abs(x) <= 1E-200) {
@@ -251,7 +252,7 @@ public final class Trigonometry {
     }
 
     /**
-     * cos(x) - 1 の計算.
+     * Calculate cos(x) - 1.
      * 
      * @param x x
      * @return cos(x) - 1
@@ -267,7 +268,7 @@ public final class Trigonometry {
     }
 
     /**
-     * cos(pi * x) - 1 の計算.
+     * Calculate cos(pi * x) - 1.
      * 
      * @param x x
      * @return cos(x) - 1
