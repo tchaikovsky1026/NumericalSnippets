@@ -50,7 +50,6 @@
 		         author="true"
 		         version="true"
 		         sourcepath="${src.dir}"
-		         link="https://docs.oracle.com/javase/jp/8/docs/api/"
 		         additionalparam="--release '8'"
 		         packagenames="${public.packages}"
 		/>
